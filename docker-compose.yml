@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: veera_appraisal_postgres
+    restart: always
+    ports:
+      - "5450:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: hr_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  backend:
+    build: ./Backend
+    container_name: veera_appraisal_backend
+    restart: always
+    ports:
+      - "3023:3023"
+    depends_on:
+      - postgres
+    environment:
+      PGUSER: postgres
+      PGPASSWORD: admin123
+      PGDATABASE: hr_db
+      PGHOST: postgres
+      PGPORT: 5432
+
+  frontend:
+    build: ./Frontend
+    container_name: veera_appraisal_frontend
+    restart: always
+    ports:
+      - "9036:80"
+
+  hr:
+    build: ./HR
+    container_name: veera_appraisal_hr
+    restart: always
+    ports:
+      - "9037:80"
+
+volumes:
+  pgdata:
+
