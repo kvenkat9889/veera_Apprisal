@@ -6,7 +6,7 @@ services:
     container_name: veera_appraisal_postgres
     restart: always
     ports:
-      - "5450:5432"
+      - "5201:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin123
@@ -20,7 +20,7 @@ services:
     container_name: veera_appraisal_backend
     restart: always
     ports:
-      - "3023:3023"
+      - "3101:3101"
     depends_on:
       - postgres
     environment:
@@ -35,14 +35,14 @@ services:
     container_name: veera_appraisal_frontend
     restart: always
     ports:
-      - "9036:80"
+      - "8202:80"
 
   hr:
     build: ./HR
     container_name: veera_appraisal_hr
     restart: always
     ports:
-      - "9037:80"
+      - "8203:80"
 
 volumes:
   pgdata:
